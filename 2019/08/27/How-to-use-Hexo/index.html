@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hyper-v,replication,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,28 +79,14 @@
 
 
 
-<meta name="description" content="Windows Hyper-V 部署复制功能目的通过Hyper-v自带的复制功能，在主服务器VM在正常运行的时候，定时自动复制数据到另一台VM，当主服务器故障时，可以很快通过切换到被复制主机恢复服务器运行。 环境源主机地址：192.168.20.30，所在宿主机：192.168.20.9被复制主机：192.168.20.30，所在书主机：192.168.20.8 配置步骤1.需要配置两台Hyper">
-<meta name="keywords" content="hyper-v,replication">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Using-Hyper-v-Replication">
-<meta property="og:url" content="http://yoursite.com/2019/08/26/Using-Hyper-v-Replication/index.html">
+<meta property="og:title" content="How-to-use-Hexo">
+<meta property="og:url" content="http://yoursite.com/2019/08/27/How-to-use-Hexo/index.html">
 <meta property="og:site_name" content="Knowing IT">
-<meta property="og:description" content="Windows Hyper-V 部署复制功能目的通过Hyper-v自带的复制功能，在主服务器VM在正常运行的时候，定时自动复制数据到另一台VM，当主服务器故障时，可以很快通过切换到被复制主机恢复服务器运行。 环境源主机地址：192.168.20.30，所在宿主机：192.168.20.9被复制主机：192.168.20.30，所在书主机：192.168.20.8 配置步骤1.需要配置两台Hyper">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/ZxG1efDdnAvMhQp.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/3inMa2DOQu7zCKc.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/P6XCFQ5mk3Kqbnj.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/7CPM8dHnL5EKYJz.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/VcFxSm6lNKLgGew.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/OMDmdCSyWBRT7uh.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/hyOoRufZdJ84nva.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/VjsAdpCBo9GD84I.jpg">
-<meta property="og:image" content="https://i.loli.net/2019/08/27/6AfKvERkxhdYSNu.jpg">
-<meta property="og:updated_time" content="2019-08-27T08:55:06.044Z">
+<meta property="og:updated_time" content="2019-08-27T09:04:16.815Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Using-Hyper-v-Replication">
-<meta name="twitter:description" content="Windows Hyper-V 部署复制功能目的通过Hyper-v自带的复制功能，在主服务器VM在正常运行的时候，定时自动复制数据到另一台VM，当主服务器故障时，可以很快通过切换到被复制主机恢复服务器运行。 环境源主机地址：192.168.20.30，所在宿主机：192.168.20.9被复制主机：192.168.20.30，所在书主机：192.168.20.8 配置步骤1.需要配置两台Hyper">
-<meta name="twitter:image" content="https://i.loli.net/2019/08/27/ZxG1efDdnAvMhQp.jpg">
+<meta name="twitter:title" content="How-to-use-Hexo">
 
 
 
@@ -130,13 +116,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/26/Using-Hyper-v-Replication/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/27/How-to-use-Hexo/">
 
 
 
 
 
-  <title>Using-Hyper-v-Replication | Knowing IT</title>
+  <title>How-to-use-Hexo | Knowing IT</title>
   
 
 
@@ -293,7 +279,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/26/Using-Hyper-v-Replication/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/How-to-use-Hexo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fly fish">
@@ -310,7 +296,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Using-Hyper-v-Replication</h1>
+          <h1 class="post-title" itemprop="name headline">How-to-use-Hexo</h1>
         
 
         <div class="post-meta">
@@ -322,8 +308,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-26T14:55:05+08:00">
-                2019-08-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-27T17:04:16+08:00">
+                2019-08-27
               </time>
             
 
@@ -333,28 +319,6 @@
           </span>
 
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Virtualization/" itemprop="url" rel="index">
-                    <span itemprop="name">Virtualization</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -362,7 +326,7 @@
 
           
           
-             <span id="/2019/08/26/Using-Hyper-v-Replication/" class="leancloud_visitors" data-flag-title="Using-Hyper-v-Replication">
+             <span id="/2019/08/27/How-to-use-Hexo/" class="leancloud_visitors" data-flag-title="How-to-use-Hexo">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -393,15 +357,7 @@
       
 
       
-        <h2 id="Windows-Hyper-V-部署复制功能"><a href="#Windows-Hyper-V-部署复制功能" class="headerlink" title="Windows Hyper-V 部署复制功能"></a>Windows Hyper-V 部署复制功能</h2><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>通过Hyper-v自带的复制功能，在主服务器VM在正常运行的时候，定时自动复制数据到另一台VM，当主服务器故障时，可以很快通过切换到被复制主机恢复服务器运行。</p>
-<h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>源主机地址：192.168.20.30，所在宿主机：192.168.20.9<br>被复制主机：192.168.20.30，所在书主机：192.168.20.8</p>
-<h5 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h5><p>1.需要配置两台Hyper-v启用复制并设置防火墙允许http/https：<br><img src="https://i.loli.net/2019/08/27/ZxG1efDdnAvMhQp.jpg" alt><br><img src="https://i.loli.net/2019/08/27/3inMa2DOQu7zCKc.jpg" alt></p>
-<p>2.选中要复制的虚拟机–邮件–复制，配置复制到另外一台宿主机,复制方法和时间根据实际需求调整，一般选用默认即可。<br><img src="https://i.loli.net/2019/08/27/P6XCFQ5mk3Kqbnj.jpg"></p>
-<p>3.复制配置完成后，备机默认是关闭状态，可以在主备机上查看当前复制状态。<br><img src="https://i.loli.net/2019/08/27/7CPM8dHnL5EKYJz.jpg"></p>
-<p>4.当主机故障无法连接的时候，可以启用备机进行恢复模式。选择备机–右键–复制–故障转移。启用备机提供服务。<br>当主机恢复后，可以关闭备机，重新启用主机提供服务。</p>
-<p>5.使用反向复制功能。<br><br>当主机不能持续提供服务，需要切换为备机状态时，可以将当前的备机提升为主机，配置反向复制。<br>将主机关机，选择复制–计划的故障转移–将服务转移到备机上。<br><img src="https://i.loli.net/2019/08/27/VcFxSm6lNKLgGew.jpg"><br><img src="https://i.loli.net/2019/08/27/OMDmdCSyWBRT7uh.jpg"></p>
-<p>服务转移到备机后，在主机上选择反向复制：<br><img src="https://i.loli.net/2019/08/27/hyOoRufZdJ84nva.jpg"><br>根据提示操作即可，将当前备机提升为主机:<br><img src="https://i.loli.net/2019/08/27/VjsAdpCBo9GD84I.jpg"><br><img src="https://i.loli.net/2019/08/27/6AfKvERkxhdYSNu.jpg"><br>配置完毕后在主备机上检查确认即可。</p>
-
+        
       
     </div>
     
@@ -416,14 +372,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/hyper-v/" rel="tag"># hyper-v</a>
-          
-            <a href="/tags/replication/" rel="tag"># replication</a>
-          
-        </div>
-      
 
       
       
@@ -433,15 +381,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/08/26/Using-Hyper-v-Replication/" rel="next" title="Using-Hyper-v-Replication">
+                <i class="fa fa-chevron-left"></i> Using-Hyper-v-Replication
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/27/How-to-use-Hexo/" rel="prev" title="How-to-use-Hexo">
-                How-to-use-Hexo <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -493,17 +441,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -563,22 +502,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-Hyper-V-部署复制功能"><span class="nav-number">1.</span> <span class="nav-text">Windows Hyper-V 部署复制功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目的"><span class="nav-number">1.0.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境"><span class="nav-number">1.0.2.</span> <span class="nav-text">环境</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置步骤"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">配置步骤</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
