@@ -363,7 +363,7 @@
           
             <h2 id="Windows-Hyper-V-部署复制功能"><a href="#Windows-Hyper-V-部署复制功能" class="headerlink" title="Windows Hyper-V 部署复制功能"></a>Windows Hyper-V 部署复制功能</h2><h4 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h4><p>通过Hyper-v自带的复制功能，在主服务器VM在正常运行的时候，定时自动复制数据到另一台VM，当主服务器故障时，可以很快通过切换到被复制主机恢复服务器运行。<br></p>
 <h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p>源主机地址：192.168.20.30，所在宿主机：192.168.20.9<br><br>被复制主机：192.168.20.30，所在书主机：192.168.20.8<br></p>
-<h5 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h5><p>1.需要配置两台Hyper-v启用复制并设置防火墙允许http/https：<br><br><img src="/2019/08/26/Using-Hyper-v-Replication/hyper-0.png" alt><br><img src="/2019/08/26/Using-Hyper-v-Replication/hyper-0-1.png" alt></p>
+<h5 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h5><p>1.需要配置两台Hyper-v启用复制并设置防火墙允许http/https：<br><br><img src="https://i.loli.net/2019/08/27/ZxG1efDdnAvMhQp.jpg" alt><br><img src="/2019/08/26/Using-Hyper-v-Replication/hyper-0-1.png" alt></p>
 <p>2.选中要复制的虚拟机–邮件–复制，配置复制到另外一台宿主机,复制方法和时间根据实际需求调整，一般选用默认即可。<br><br><img src="/2019/08/26/Using-Hyper-v-Replication/hyper-0-2.png"></p>
 <p>3.复制配置完成后，备机默认是关闭状态，可以在主备机上查看当前复制状态。<br><br><img src="/2019/08/26/Using-Hyper-v-Replication/hyper-0-3.png"><br></p>
 <p>4.当主机故障无法连接的时候，可以启用备机进行恢复模式。选择备机–右键–复制–故障转移。启用备机提供服务。<br><br>当主机恢复后，可以关闭备机，重新启用主机提供服务。<br></p>
