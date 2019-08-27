@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Mac 系统安装Hexo简洁版1.参考文档：https://hexo.io/zh-cn/docs/https://github.com/limedroid/HexoLearning 安装必须工具： $ sudo brew install node$ sudo npm install git$ sudo npm install hexo-cli -g 2.创建和部署 创建新文章：hexo new “">
+<meta name="description" content="Mac 系统安装Hexo简洁版1.参考文档：https://hexo.io/zh-cn/docs/https://github.com/limedroid/HexoLearning 安装必须工具： 123$ sudo brew install node$ sudo npm install git$ sudo npm install hexo-cli -g  2.创建和部署 创建新文章： 1hexo">
 <meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How-to-use-Hexo">
 <meta property="og:url" content="http://yoursite.com/2019/08/27/How-to-use-Hexo/index.html">
 <meta property="og:site_name" content="Knowing IT">
-<meta property="og:description" content="Mac 系统安装Hexo简洁版1.参考文档：https://hexo.io/zh-cn/docs/https://github.com/limedroid/HexoLearning 安装必须工具： $ sudo brew install node$ sudo npm install git$ sudo npm install hexo-cli -g 2.创建和部署 创建新文章：hexo new “">
+<meta property="og:description" content="Mac 系统安装Hexo简洁版1.参考文档：https://hexo.io/zh-cn/docs/https://github.com/limedroid/HexoLearning 安装必须工具： 123$ sudo brew install node$ sudo npm install git$ sudo npm install hexo-cli -g  2.创建和部署 创建新文章： 1hexo">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-08-27T09:36:20.432Z">
+<meta property="og:updated_time" content="2019-08-27T09:40:44.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How-to-use-Hexo">
-<meta name="twitter:description" content="Mac 系统安装Hexo简洁版1.参考文档：https://hexo.io/zh-cn/docs/https://github.com/limedroid/HexoLearning 安装必须工具： $ sudo brew install node$ sudo npm install git$ sudo npm install hexo-cli -g 2.创建和部署 创建新文章：hexo new “">
+<meta name="twitter:description" content="Mac 系统安装Hexo简洁版1.参考文档：https://hexo.io/zh-cn/docs/https://github.com/limedroid/HexoLearning 安装必须工具： 123$ sudo brew install node$ sudo npm install git$ sudo npm install hexo-cli -g  2.创建和部署 创建新文章： 1hexo">
 
 
 
@@ -385,46 +385,84 @@
       
         <h2 id="Mac-系统安装Hexo简洁版"><a href="#Mac-系统安装Hexo简洁版" class="headerlink" title="Mac 系统安装Hexo简洁版"></a>Mac 系统安装Hexo简洁版</h2><p>1.参考文档：<br><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/</a><br><a href="https://github.com/limedroid/HexoLearning" target="_blank" rel="noopener">https://github.com/limedroid/HexoLearning</a></p>
 <p>安装必须工具：</p>
-<p>$ sudo brew install node<br>$ sudo npm install git<br>$ sudo npm install hexo-cli -g</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo brew install node</span><br><span class="line">$ sudo npm install git</span><br><span class="line">$ sudo npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+
 <p>2.创建和部署</p>
-<p>创建新文章：<br>hexo new “文章名”<br>默认文章创建在source/_posts下，可以直接编辑文件。</p>
+<p>创建新文章：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;文章名&quot;</span><br></pre></td></tr></table></figure>
+
+<p>默认文章创建在source/_posts下，可以直接编辑文件。</p>
 <p>部署到本地：</p>
-<p>hexo g -d<br>hexo s<br>默认可通过浏览器<a href="http://localhost:4000进行本地预览" target="_blank" rel="noopener">http://localhost:4000进行本地预览</a></p>
-<p>3.删除文章：<br>到目录/source/_posts下删除相应的文章<br>$ hexo g<br>$ hexo d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g -d</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<p>默认可通过浏览器<a href="http://localhost:4000进行本地预览" target="_blank" rel="noopener">http://localhost:4000进行本地预览</a></p>
+<p>3.删除文章：<br>到目录/source/_posts下删除相应的文章</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+
 <p>4.插入图片：</p>
 <p>1).可以通过将图片统一存放在source/images文件夹下,在写文章时通过以下命令引用：<br>source/images/image.jpg</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](/images/image.jpg)</span><br></pre></td></tr></table></figure>
 
 <p>如果是外链地址可以直接在括号中输入完整地址即可。</p>
-<p>2).也可以通过将图片放在每个文章自己目录中，需要安装插件：<br>$ npm install hexo-asset-image –save</p>
-<p>修改配置文件_config.yml,启用：<br>post_asset_folder: true<br>如果使用外链地址可以不需要启用该项。</p>
+<p>2).也可以通过将图片放在每个文章自己目录中，需要安装插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>修改配置文件_config.yml,启用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: true</span><br></pre></td></tr></table></figure>
+
+<p>如果使用外链地址可以不需要启用该项。</p>
 <p>之后每次通过hexo new创建文章的时候都会创建与文章同名的目录，将图片放在该目录下，然后在文章中引用图片：<br>_posts/post_name/image.jpg</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
 
 <p>如果希望图片在文章和首页中同时显示，可以使用标签插件语法：<br>_posts/post_name/image.jpg</p>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img image.jpg This is an image %&#125;</span><br></pre></td></tr></table></figure>
 
 <p>5.安装主题Next</p>
 <p>官方文档：<a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">http://theme-next.iissnan.com/getting-started.html</a></p>
-<p>1).下载主题：<br>$ cd 博客目录<br>$ git colone <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a> themes/next</p>
-<p>2).修改主题为next<br>$ vi _config.yml<br>theme: next</p>
-<p>3).部署到服务器<br>$ hexo g -d<br>$ hexo s</p>
+<p>1).下载主题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd 博客目录</span><br><span class="line">$ git colone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+
+<p>2).修改主题为next</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vi _config.yml</span><br><span class="line">theme: next</span><br></pre></td></tr></table></figure>
+
+<p>3).部署到服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g -d</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+
 <p>6.发布文章到github.io</p>
 <p>1).设置github<br>登录github，创建新的repository,例如名字为：smallfish01.github.io<br>创建完毕后复制链接，修改本地_config.yml,设置deploy信息：<br>deploy:<br>  type: git<br>  repository: <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:smallfish01/smallfish01.github.io.git<br>  branch: master</p>
-<p>2).在本地电脑生成ssh key<br>$ cd ~<br>$ cd .ssh<br>$ ssh-keygen -t rsa -C “smallfish01”</p>
+<p>2).在本地电脑生成ssh key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~</span><br><span class="line">$ cd .ssh</span><br><span class="line">$ ssh-keygen -t rsa -C &quot;smallfish01&quot;</span><br></pre></td></tr></table></figure>
+
 <p>3).在Github上设置ssh key<br>登录Github–Settings–SSH and GPG keys–SSH keys–New SSH Key<br>Title：输入自定义Title<br>Key:黏贴本地产生的id_rsa.pub文件内容<br>点击Add SSH key.</p>
-<p>4).测试ssh key添加是否成功，在本地电脑命令行输入：<br>$ ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a><br>The authenticity of host ‘github.com (13.229.188.59)’ can’t be established.<br>RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘github.com,13.229.188.59’ (RSA) to the list of known hosts.<br>Enter passphrase for key ‘/Users/username/.ssh/id_rsa’:<br>Hi smallfish01! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
-<p>修改Github上传后文件的姓名,当你上传文章后在Github上显示的名字。<br>git config –global user.name “Fly.Fish”</p>
-<p>5). 部署网站到Github<br>在本地输入：<br>hexo generate<br>hexo deploy</p>
+<p>4).测试ssh key添加是否成功，在本地电脑命令行输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>The authenticity of host ‘github.com (13.229.188.59)’ can’t be established.<br>RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘github.com,13.229.188.59’ (RSA) to the list of known hosts.<br>Enter passphrase for key ‘/Users/username/.ssh/id_rsa’:<br>Hi smallfish01! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
+<p>修改Github上传后文件的姓名,当你上传文章后在Github上显示的名字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Fly.Fish&quot;</span><br></pre></td></tr></table></figure>
+
+<p>5). 部署网站到Github<br>在本地输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
 <p>访问<a href="https://smallfish01.github.io" target="_blank" rel="noopener">https://smallfish01.github.io</a> 进行测试</p>
 <p>6).免费图床<br>Telegram添加好友：@sm_ms_bot，直接将图片拖入聊天框，系统会自动产生一个图片地址，将改地址贴到文章即可。</p>
 <p>6.其他配置</p>
-<p>1).创建分类：<br>$ hexo new page categories<br>INFO  Created: ~/knowing/source/categories/index.md<br>vi /knowing/source/categories/index.md,在date后添加：<br>type:”categories”</p>
+<p>1).创建分类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page categories</span><br></pre></td></tr></table></figure>
+
+<p>INFO  Created: ~/knowing/source/categories/index.md</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /knowing/source/categories/index.md</span><br></pre></td></tr></table></figure>
+
+<p>在date后添加：<br>type:”categories”</p>
 <p>2).修改文章，添加分类：<br>例如将文章test.md 放到分类：test中，可以编辑test.md,在tags：后插入：<br>categories:test</p>
-<p>$ hexo clean ##清除缓存<br>$ hexo g<br>$ hexo d</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean ##清除缓存</span><br><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+
 <p>7.问题：</p>
 <p>1).部署到github上提示：<br>ERROR Deployer not found: git</p>
 <p>解决：<br>npm install hexo-deployer-git –save</p>
+<p>2).hexo g出错：<br>$ hexo g</p>
+<p>YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 6, column 1:</p>
+<p>解决：<br>检查当前文章内容，检查第六行是不是缺少空格，例如：<br>categories:Others,正确应该是：categories: Others</p>
 
       
     </div>
