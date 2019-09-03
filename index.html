@@ -279,6 +279,174 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/03/Hyper-v-replication/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fly fish">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knowing IT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/03/Hyper-v-replication/" itemprop="url">Hyper-v-replication</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-03T10:56:10+08:00">
+                2019-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Virtualization/" itemprop="url" rel="index">
+                    <span itemprop="name">Virtualization</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/09/03/Hyper-v-replication/" class="leancloud_visitors" data-flag-title="Hyper-v-replication">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Windows-server-2012-Hyper-v-虚拟机复制"><a href="#Windows-server-2012-Hyper-v-虚拟机复制" class="headerlink" title="Windows server 2012 Hyper-v 虚拟机复制"></a>Windows server 2012 Hyper-v 虚拟机复制</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>利用Hyper-v 自带的复制功能，将日常运行的虚拟机定时复制到远程主机，用于实现当主机故障时，可以手动通过被复制主机继续提供服务，以达到最低成本的服务器故障切换。<br></p>
+<p>本配置目的测试将源Hyper-v(192.168.20.5) 所属的一台VM(192.168.20.51)配置成复制主机模式，每隔5分钟复制VM到目标Hyper-v(192.168.20.7)主机。<br><br>测试正常情况下当源VM关闭并临时启用计划的故障转移后，两台服务器之间的切换时间，最后将恢复源主机角色的配置过程。<br></p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在被测试VM大小为26G的情况下，两台主机之间初始复制时间为20分钟左右，切换时机器关闭和启动时间在1~3分钟。<br></p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>源主机和被复制目标主机安装WindowsServer2012 标准版或数据中心版以及Hyper-v。<br><br>源主机和目的主机Hyper-v都设置为允许复制。<br><br>防火墙设置相互允许http,https访问。<br></p>
+<p><img src="https://i.loli.net/2019/09/03/45mkYBcXhRznFaU.jpg" alt><br></p>
+<h3 id="配置概要"><a href="#配置概要" class="headerlink" title="配置概要"></a>配置概要</h3><p>源主机配置复制，复制完成后关机，进行计划的故障转移；<br><br>启用被复制VM，确认资料数据完整，启用反向复制并关闭该VM；<br><br>重新启用源复制VM，确认数据正常，启用反向复制；<br><br>切换流程结束。<br></p>
+<h3 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h3><p>1.在源Hyper-v所在的VM配置启用复制。<br><br>选中要复制的主机，点击右键–启用复制，根据提示，将源主机指定VM 192.168.20.51复制到目标主机192.168.20.7，整个过程根据VM容量和网络速度而定，一般内网26G左右数据需要20分钟左右。<br></p>
+<p><img src="https://i.loli.net/2019/09/03/WXB8dAzvj3DIaNm.jpg" alt><br></p>
+<p>2.启用故障转移。<br><br>在源VM下做些修改，例如修改用户密码，从别处拷贝文件，以确定故障转移后文件是否恢复到目标服务器。<br><br>关闭VM并选中点击右键复制–计划的故障转移，确定后点击故障转移,整个过程将持续2分钟左右。<br></p>
+<p><img src="https://i.loli.net/2019/09/03/nQdrU9gcuNJ3VPS.jpg" alt><br><br><img src="https://i.loli.net/2019/09/03/MIlnjPf3RmHqLkV.jpg" alt><br><br><img src="https://i.loli.net/2019/09/03/BDUSpH4Ws8fRLri.jpg" alt><br></p>
+<p>3.确认目标VM启动和数据完整。<br><br>转移完毕后目标服务器将自动启动，整个过程在1~3分钟。<br><br>打开目标VM，确认在故障转移之前的文件和用户密码修改是否有效。此时检查两台VM的复制状态和之前一样，源VM为复制主机，目标VM为被复制主机，因为目前还没做反向复制。<br></p>
+<p>4.反向复制测试。<br><br>当启用被复制VM并运行一段时间后可能会产生一些数据，此时为了确保两台服务数据一致，要进行反向复制，已确保源主机数据也保持更新。<br><br>在当前运行主机上做一些修改操作，例如创建用户账户，删除文件，操作完毕后进行反向复制，将当前内容复制到目标Hyper-v(182.168.20.5)下的VM。即选中目标VM–右键复制–反向复制，预计持续时间将1~3分钟。<br><br><img src="https://i.loli.net/2019/09/03/rXGhP7iFxLS6TBg.jpg" alt><br></p>
+<p>5.恢复源主机。<br><br>数据反向复制完成后，关闭当前VM,选择右键复制–计划的故障转移，远程目标主机Hyper-v(192.168.20.5)下的VM将启动，大约从关机到启动需要1~3分钟。<br><br><img src="https://i.loli.net/2019/09/03/dYQpFfihgWGOerR.jpg" alt><br></p>
+<p>6.确认复制效果。<br><br>登录目标VM，检查之前增加的用户名和删除的文件是否生效。<br><br>然后选择VM，点击右键复制–反向复制，重新启动正常的复制流程,当前的被复制主机又变成了之前192.168.20.5下的VM。<br></p>
+<p>7.取消复制。<br><br>如果要取消复制，需要在源主机和目标主机都取消，否则只取消源主机，目标主机还会继续复制。<br></p>
+<p>8.参考文档<br><br><a href="http://itproguru.com/expert/2013/03/hyper-v-replica-step-by-step-virtexpert-virtualization-experts-series-part-22/" target="_blank" rel="noopener">http://itproguru.com/expert/2013/03/hyper-v-replica-step-by-step-virtexpert-virtualization-experts-series-part-22/</a><br><br><a href="https://www.vembu.com/blog/hyper-v-basic-replication-configuration/" target="_blank" rel="noopener">https://www.vembu.com/blog/hyper-v-basic-replication-configuration/</a><br><br><a href="http://www.msserverpro.com/configuring-hyper-v-replica-in-windows-server-2012-r2/" target="_blank" rel="noopener">http://www.msserverpro.com/configuring-hyper-v-replica-in-windows-server-2012-r2/</a><br></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/How-to-use-Hexo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -704,7 +872,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
