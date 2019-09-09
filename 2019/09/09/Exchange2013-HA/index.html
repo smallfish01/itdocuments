@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="exchange,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="邮件服务器双机高可用方案背景之前邮件系统由一台物理机构成，部署两个VM，包括邮件网关和Exchange.由于所有服务都运行在一台物理机上，如果有硬件或系统问题将会导致邮件系统不可用。 目标为解决单点故障问题，需要将当前的Exchange server All in one模式拆分成CAS和MBX服务器分离，拆分部署在两台物理机上，当其中一台物理机或系统故障时不会影响整个邮件系统。 前提条件需要有W">
+<meta name="keywords" content="exchange">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Exchange2013-HA">
+<meta property="og:url" content="http://yoursite.com/2019/09/09/Exchange2013-HA/index.html">
+<meta property="og:site_name" content="Knowing IT">
+<meta property="og:description" content="邮件服务器双机高可用方案背景之前邮件系统由一台物理机构成，部署两个VM，包括邮件网关和Exchange.由于所有服务都运行在一台物理机上，如果有硬件或系统问题将会导致邮件系统不可用。 目标为解决单点故障问题，需要将当前的Exchange server All in one模式拆分成CAS和MBX服务器分离，拆分部署在两台物理机上，当其中一台物理机或系统故障时不会影响整个邮件系统。 前提条件需要有W">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/Wcy2omRVqb4GMx5.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/w1PGxLEWs3fzDYI.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/GIh9FkU8wsuRJjL.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/oT57JIiF21cht4d.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/zAQ7uX685UscjN1.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/05/uaSC8RTgXL36xwl.png">
+<meta property="og:updated_time" content="2019-09-09T06:27:31.621Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Exchange2013-HA">
+<meta name="twitter:description" content="邮件服务器双机高可用方案背景之前邮件系统由一台物理机构成，部署两个VM，包括邮件网关和Exchange.由于所有服务都运行在一台物理机上，如果有硬件或系统问题将会导致邮件系统不可用。 目标为解决单点故障问题，需要将当前的Exchange server All in one模式拆分成CAS和MBX服务器分离，拆分部署在两台物理机上，当其中一台物理机或系统故障时不会影响整个邮件系统。 前提条件需要有W">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/05/Wcy2omRVqb4GMx5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/09/Exchange2013-HA/">
+
+
+
+
+
+  <title>Exchange2013-HA | Knowing IT</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knowing IT</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/09/Exchange2013-HA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fly fish">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knowing IT">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Exchange2013-HA</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-09T14:25:09+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Exchange-Outlook/" itemprop="url" rel="index">
+                    <span itemprop="name">Exchange&Outlook</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/09/09/Exchange2013-HA/" class="leancloud_visitors" data-flag-title="Exchange2013-HA">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="邮件服务器双机高可用方案"><a href="#邮件服务器双机高可用方案" class="headerlink" title="邮件服务器双机高可用方案"></a>邮件服务器双机高可用方案</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前邮件系统由一台物理机构成，部署两个VM，包括邮件网关和Exchange.由于所有服务都运行在一台物理机上，如果有硬件或系统问题将会导致邮件系统不可用。<br></p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>为解决单点故障问题，需要将当前的Exchange server All in one模式拆分成CAS和MBX服务器分离，拆分部署在两台物理机上，当其中一台物理机或系统故障时不会影响整个邮件系统。<br></p>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>需要有Windows AD服务器，且所有VM都部署同样版本的操作系统，加入域。<br><br>准备Exchange server 和必须的安装软件。<br></p>
+<h2 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h2><p>Windows AD 和邮件系统操作系统为Windows server 2012 R2标准版。 <br><br>Exchange server 版本为2013。 <br><br>CAS VM两台，服务器名为CAS01,CAS02，分别部署在两台物理机上，配置NLB并设置一个单独的域名CAS-NLB和IP。<br><br>MBX VM两台, 服务器名为MBX01,MBX02,分别部署在两台物理机上，配置心跳地址和DAG。<br></p>
+<p><strong>1.拓扑图</strong></p>
+<p>邮件系统架构对比图：<br><br><img src="https://i.loli.net/2019/09/05/Wcy2omRVqb4GMx5.png" alt="jiagou.png"><br></p>
+<p><strong>2.服务器和IP列表</strong></p>
+<p><img src="https://i.loli.net/2019/09/05/w1PGxLEWs3fzDYI.png" alt="ip.png"><br></p>
+<h2 id="系统配置步骤"><a href="#系统配置步骤" class="headerlink" title="系统配置步骤"></a>系统配置步骤</h2><h3 id="1-基础配置"><a href="#1-基础配置" class="headerlink" title="1. 基础配置"></a>1. 基础配置</h3><p>1).准备4台VM，分别用于CAS和MBX,安装Windows server 2012 R2，加入域并安装必要的补丁;<br><br>2).使用Hyper-v自带的复制功能，为邮件网关服务器启用复制，定时将VM数据同步到另外一台物理机，确保当源VM或宿主机故障时，可以手动启用另外一台邮件网关，正常切换时间大约为2~5分钟，确保邮件外发和接收正常。<br><br>3).无论是CAS还是MBX服务器必须先安装以下插件：<br><br>.NET Framework 4.7.1<br><br><a href="https://www.microsoft.com/en-us/download/details.aspx?id=56116" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/details.aspx?id=56116</a><br><br>Visual C++ Redistributable Package for Visual Studio 2012<br><br><a href="https://www.microsoft.com/en-us/download/details.aspx?id=30679" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/details.aspx?id=30679</a><br><br>Microsoft Unified Communications Managed API 4.0, Core Runtime 64-bit<br><br><a href="https://go.microsoft.com/fwlink/p/?linkid=258269" target="_blank" rel="noopener">https://go.microsoft.com/fwlink/p/?linkid=258269</a><br></p>
+<p>4).Powershell安装CAS角色<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-WindowsFeature ADLDS</span><br></pre></td></tr></table></figure>
+
+<br>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-WindowsFeature AS-HTTP-Activation, Desktop-Experience, NET-Framework-45-Features, RPC-over-HTTP-proxy, RSAT-Clustering, Web-Mgmt-Console, WAS-Process-Model, Web-Asp-Net45, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-Dir-Browsing, Web-Dyn-Compression, Web-Http-Errors, Web-Http-Logging, Web-Http-Redirect, Web-Http-Tracing, Web-ISAPI-Ext, Web-ISAPI-Filter, Web-Lgcy-Mgmt-Console, Web-Metabase, Web-Mgmt-Console, Web-Mgmt-Service, Web-Net-Ext45, Web-Request-Monitor, Web-Server, Web-Stat-Compression, Web-Static-Content, Web-Windows-Auth, Web-WMI, Windows-Identity-Foundation</span><br></pre></td></tr></table></figure>
+
+<br>
+安装完毕后打开Exchange server安装软件，执行Setup.exe，安装时选择正确的角色即可。<br>
+
+<p>5).安装MBX角色<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-WindowsFeature ADLDS</span><br></pre></td></tr></table></figure>
+
+<br>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-WindowsFeature AS-HTTP-Activation, Desktop-Experience, NET-Framework-45-Features, RPC-over-HTTP-proxy, RSAT-Clustering, RSAT-Clustering-CmdInterface, Web-Mgmt-Console, WAS-Process-Model, Web-Asp-Net45, Web-Basic-Auth, Web-Client-Auth, Web-Digest-Auth, Web-Dir-Browsing, Web-Dyn-Compression, Web-Http-Errors, Web-Http-Logging, Web-Http-Redirect, Web-Http-Tracing, Web-ISAPI-Ext, Web-ISAPI-Filter, Web-Lgcy-Mgmt-Console, Web-Metabase, Web-Mgmt-Console, Web-Mgmt-Service, Web-Net-Ext45, Web-Request-Monitor, Web-Server, Web-Stat-Compression, Web-Static-Content, Web-Windows-Auth, Web-WMI, Windows-Identity-Foundation</span><br></pre></td></tr></table></figure>
+
+<br>
+安装完毕后打开Exchange server安装软件，执行Setup.exe，安装时选择正确的角色即可。<br>
+全部安装完毕后需重启服务器。<br>
+
+
+<h3 id="2-规划邮箱DAG"><a href="#2-规划邮箱DAG" class="headerlink" title="2.规划邮箱DAG"></a>2.规划邮箱DAG</h3><p>在新MBX 服务器上创建新数据库DB1,DB2;<br><br>在新创建的邮箱服务器上删除默认数据库:<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$olddb1 = Get-MailboxDatabase &quot;Mailbox Database01&quot;</span><br><span class="line">$olddb2 = Get-MailboxDatabase &quot;Mailbox Database02&quot;</span><br><span class="line">Get-MailboxDatabase $olddb | Remove-MailboxDatabase</span><br></pre></td></tr></table></figure>
+
+<br>
+为配置DAG准备VM第二块网卡并配置心跳地址。<br>
+使用邮箱管理员账号(administrator)登录ECP,为MBX01,MBX2配置DAG，并验证可用性;<br>
+
+<p><img src="https://i.loli.net/2019/09/05/GIh9FkU8wsuRJjL.png" alt="dag01.png"><br><br>见证服务器可以用CAS服务器或AD服务器都可以，不需要新建见证目录，配置后系统自动创建；<br><br>配置DAG时复制网络(ReplicationDagNetwork)地址为心跳地址，单独网卡直连;<br><br><img src="https://i.loli.net/2019/09/05/oT57JIiF21cht4d.png" alt="dag02.png"><br><br><img src="https://i.loli.net/2019/09/05/zAQ7uX685UscjN1.png" alt="dag03.png"><br></p>
+<h3 id="3-迁移邮箱"><a href="#3-迁移邮箱" class="headerlink" title="3.迁移邮箱"></a>3.迁移邮箱</h3><p>可通过ECP或Powershell迁移，同时可以迁移多个邮箱。也可以根据部门批量迁移，先在ECP收件人里批量导出邮件用户，导出时只需要选择邮件地址导出即可；<br><br>批量导出后，通过ECP 再批量进行迁移，提高效率；<br><br>用户邮箱迁移完毕后迁移系统邮箱和仲裁邮箱,系统监控邮箱不用迁移；<br><br>确认所有邮箱都从旧的邮件数据库迁移出后，进行下一步操作。<br><br>附录迁移常用的Powershell: <br><br>查询当前邮件数据库邮箱数量：<br><br>Get-Mailbox | Group-Object -Property:Database | Select-Object Name,Count | Sort-Object NameName<br><br><br>Get-Mailbox -database DB name | Measure-Object<br><br><br>检查仲裁邮箱:<br><br>Get-Mailbox -Database “DB name” -Arbitration<br><br>命令行迁移邮箱:<br><br>Get-Mailbox -Filter { RecipientTypeDetails -eq “mailbox name” } | new-moverequest -targetdatabase DB name<br><br>查询邮件服务器信息：<br><br>Get-ExchangeServer | select name, serverrole, edition, admindisplayversion, isClientAccessServer | fl<br><br>查询组织邮箱总数:<br><br>Get-Mailbox | Measure-Object<br><br>查询某个数据库或服务器数箱总数:<br><br>Get-Mailbox –database dbname | Measure-Object<br><br>Get-Mailbox –Server servername | Measure-Object<br><br>查询某个用户邮箱信息：<br><br>get-mailbox -Identity username<br><br>查询邮箱容量和邮件：<br><br>get-mailboxstatistics -identity administrator | ft displayname, totalitemsize,itemcount<br><br>查询邮件数据库容量：<br><br>get-mailboxdatabase -status | select servername,name,databasesize<br><br>检查邮箱数据库状态：<br><br>get-mailboxdatabase -status | select name,mounted,mountedonserver<br></p>
+<h3 id="4-配置CAS-负载均衡"><a href="#4-配置CAS-负载均衡" class="headerlink" title="4.配置CAS 负载均衡"></a>4.配置CAS 负载均衡</h3><p>1).CAS服务器需要安装NLB(网络负载均衡)服务，只需在其中一台CAS服务器配置即可，NLB地址为nlb-cas.domain.com，配置后确认NLB工作正常；<br><br><img src="https://i.loli.net/2019/09/05/uaSC8RTgXL36xwl.png" alt="nlb.png"></p>
+<p>2).配置完毕后，登录ECP并参考旧服务器配置，修改CAS和MBX配置，包括：CAS证书，虚拟目录，服务器等，对外的CAS域名需要使用nlb负载均衡cas-nlb的地址；<br></p>
+<p>3).检查内网防火墙，DNS服务器以及邮件网关配置的CAS服务器地址，修改对外映射的邮件服务器域名和IP；包括webmail/mail/autodiscover.domain.com域名对应的IP，修改后测试邮件收发是否正常。<br></p>
+<p>5).通过ECP对CAS修改完毕后，确认邮件网关配置修改正确，尝试断开旧的Exchange 服务器网络,测试邮件收发是否正常,如果邮件收发正常即代表CAS切换成功。<br></p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p>Installing Pre-Requisites for an Exchange Server 2013 Mailbox, or Mailbox and Client Access Server<br><br><a href="https://practical365.com/exchange-server/install-exchange-2013-pre-requisites-windows-server-2012/" target="_blank" rel="noopener">https://practical365.com/exchange-server/install-exchange-2013-pre-requisites-windows-server-2012/</a><br></p>
+<p>How to create Exchange 2013 DAG and Test DAG Failover<br><br><a href="https://vands.pro/2014/12/23/exchange-2013-dag-failover-and-failback/" target="_blank" rel="noopener">https://vands.pro/2014/12/23/exchange-2013-dag-failover-and-failback/</a><br></p>
+<p>Exchange Installation Tips<br><br><a href="https://vands.pro/2013/01/28/exchange-installation-tips/" target="_blank" rel="noopener">https://vands.pro/2013/01/28/exchange-installation-tips/</a><br></p>
+<p>How to create and configure DAG in Exchange 2013 step by step<br><br><a href="https://tekbloq.com/2017/11/08/how-to-create-and-configure-dag-in-exchange-2013-step-by-step/" target="_blank" rel="noopener">https://tekbloq.com/2017/11/08/how-to-create-and-configure-dag-in-exchange-2013-step-by-step/</a><br></p>
+<p>Exchange Server 2013 Client Access Server High Availability<br><br><a href="https://practical365.com/exchange-server/exchange-2013-client-access-server-high-availability/" target="_blank" rel="noopener">https://practical365.com/exchange-server/exchange-2013-client-access-server-high-availability/</a><br></p>
+<p>Exchange 2013 系统必备<br><br><a href="https://docs.microsoft.com/zh-cn/exchange/exchange-2013-prerequisites-exchange-2013-help#WS2012MBX" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/exchange/exchange-2013-prerequisites-exchange-2013-help#WS2012MBX</a><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/exchange/" rel="tag"># exchange</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/03/Hyper-v-replication/" rel="next" title="Hyper-v-replication">
+                <i class="fa fa-chevron-left"></i> Hyper-v-replication
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Fly fish</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#邮件服务器双机高可用方案"><span class="nav-number">1.</span> <span class="nav-text">邮件服务器双机高可用方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">1.2.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前提条件"><span class="nav-number">1.3.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境信息"><span class="nav-number">1.4.</span> <span class="nav-text">环境信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统配置步骤"><span class="nav-number">1.5.</span> <span class="nav-text">系统配置步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基础配置"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 基础配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-规划邮箱DAG"><span class="nav-number">1.5.2.</span> <span class="nav-text">2.规划邮箱DAG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-迁移邮箱"><span class="nav-number">1.5.3.</span> <span class="nav-text">3.迁移邮箱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-配置CAS-负载均衡"><span class="nav-number">1.5.4.</span> <span class="nav-text">4.配置CAS 负载均衡</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">1.6.</span> <span class="nav-text">参考文档</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fly fish</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("", "");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
