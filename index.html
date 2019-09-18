@@ -383,11 +383,9 @@
       
         
           
-            <h1 id="Exchange-2013-设置代理邮件发送"><a href="#Exchange-2013-设置代理邮件发送" class="headerlink" title="Exchange 2013 设置代理邮件发送"></a>Exchange 2013 设置代理邮件发送</h1><p>####需求<br>用户希望以运营部(<a href="mailto:op@domain.com" target="_blank" rel="noopener">op@domain.com</a>)身份给其他人发送邮件，由于该账号为邮件组，非单独用户，无法通过密码登录Web或邮件客户端方式发送，需要配置代理或代表发送，本例以用户(<a href="mailto:userA@domain.com" target="_blank" rel="noopener">userA@domain.com</a>)代理运营部(op@domain)外发邮件。<br></p>
-<p>####实施方法</p>
-<p>代表(Send-On-Behalf)和代理(Send As)主要区别如下：<br><br>代表发送时会显示代表人邮件地址，例如用户A代表用户B发送邮件，当用户收到邮件时会被告知该邮件是由用户A代表B发送的。如果是代理发送，收件人不知道谁代理人，对用户来说是不知道真正发件人的。<br></p>
-<p>####配置</p>
-<p>1.登录Windows AD Server，在AD用户和计算机的对应OU下找到该邮件组–右键属性–安全–添加用户userA，并赋予权限：”另外发送为“，点击应用确认。<br><br><img src="https://i.loli.net/2019/09/18/QRGzZ1bHClaPL9o.png" alt="send-1.png"><br></p>
+            <h1 id="Exchange-2013-设置代理邮件发送"><a href="#Exchange-2013-设置代理邮件发送" class="headerlink" title="Exchange 2013 设置代理邮件发送"></a>Exchange 2013 设置代理邮件发送</h1><h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p>用户希望以运营部(<a href="mailto:op@domain.com" target="_blank" rel="noopener">op@domain.com</a>)身份给其他人发送邮件，由于该账号为邮件组，非单独用户，无法通过密码登录Web或邮件客户端方式发送，需要配置代理或代表发送，本例以用户(<a href="mailto:userA@domain.com" target="_blank" rel="noopener">userA@domain.com</a>)代理运营部(op@domain)外发邮件。<br></p>
+<h4 id="实施方法"><a href="#实施方法" class="headerlink" title="实施方法"></a>实施方法</h4><p>代表(Send-On-Behalf)和代理(Send As)主要区别如下：<br><br>代表发送时会显示代表人邮件地址，例如用户A代表用户B发送邮件，当用户收到邮件时会被告知该邮件是由用户A代表B发送的。如果是代理发送，收件人不知道谁代理人，对用户来说是不知道真正发件人的。<br></p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>1.登录Windows AD Server，在AD用户和计算机的对应OU下找到该邮件组–右键属性–安全–添加用户userA，并赋予权限：”另外发送为“，点击应用确认。<br><br><img src="https://i.loli.net/2019/09/18/QRGzZ1bHClaPL9o.png" alt="send-1.png"><br></p>
 <p>也可以通过命令行方式添加，登录Exchange服务器，在Exchange Management Shell下输入：<br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-DistributionGroup &quot;op&quot; | Add-ADPermission -User &quot;username&quot; -ExtendedRights &quot;Send As&quot;</span><br></pre></td></tr></table></figure>
 
